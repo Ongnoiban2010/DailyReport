@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="bss" translate="label" sortOrder="10">           
+            <label><![CDATA[Dtn Daily Report]]></label>
+        </tab>
+        <section id="dailyreport" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Daily Report</label>
+            <tab>bss</tab>
+            <resource>Dtn_DailyReport::dailyreport</resource>
+            <group id="general" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Daily Report Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Extension Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="email" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Add a receiving email</label>
+                    <comment>Add emails to receive reports.</comment>
+                </field>
+
+                <!-- <field id="date" translate="label" type="date" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Set the time to export the report</label>
+                    <frontend_model>Dtn\DailyReport\Block\Adminhtml\System\Config\Date</frontend_model>
+                </field> -->
+
+                <field id="frequency" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Frequency</label>
+                    <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
+                    <backend_model>Dtn\DailyReport\Model\Config\Backend\Frequency</backend_model>
+                </field>
+                <field id="time" translate="label" type="time" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Start Time</label>
+                </field>
+
+                <field id="ssl" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>SSL type</label>
+                    <source_model>Dtn\DailyReport\Model\Config\Source\Authtype</source_model>
+                    <comment>Default: ssl</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="smtphost" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>SMTP Host</label>
+                    <comment>The server name (eg smtp.gmail.com).</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="smtpport" translate="label" type="text" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>SMTP Port</label>
+                    <validate>validate-number</validate>
+                    <frontend_class>validate-number</frontend_class>
+                    <comment>Use 465 (ssl) or 587 (tls) if port 25 is throttled or blocked.</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="auth" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Authentication method</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Smtpauth</source_model>
+                    <comment>Default: login</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="username" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Username</label>
+                    <comment>Email Address or Account ID.</comment>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="password" translate="label" type="obscure" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Password</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <depends>
+                        <field id="*/*/active">1</field>
+                    </depends>
+                </field>
+                <field id="ccemail" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Send Email Cc</label>
+                    <comment>Add Send Email BCC.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
