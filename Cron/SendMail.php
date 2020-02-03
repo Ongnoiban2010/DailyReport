@@ -66,7 +66,7 @@ class SendMail
 
 	public function export()
 	{
-        $filepath = 'export/export-data-' .$this->getcurrentStoreTime(). '.csv'; 
+        $filepath = 'export/export-data-' . $this->getcurrentStoreTime() . '.csv'; 
         // at Directory path Create a Folder Export and FIle
         $this->directory->create('export');
         $stream = $this->directory->openFile($filepath, 'w+');
@@ -74,7 +74,7 @@ class SendMail
         //column name dispay in your CSV 
         $header = ['Name','Sku','Qty_shipped','Qty_Stock'];
         $stream->writeCsv($header);
-        $text = 'Name, Sku, Qty_shipped, Qty_Stock'."\n";
+        $text = 'Name, Sku, Qty_shipped, Qty_Stock' . "\n";
         $products = $this->getProduct();
         if ($products != null) {
         	foreach($products as $item) {
@@ -84,14 +84,14 @@ class SendMail
 	        	$itemData[] = $item['qty_ordered'];
 	        	$itemData[] = $item['stock'];
 	        	$stream->writeCsv($itemData);
-	        	$text .= implode(',',$item)."\n";
+	        	$text .= implode(',',$item) . "\n";
         	}
         }
         $content = [];
         $content['type'] = 'filename'; // must keep filename
         $content['value'] = $filepath;
         $content['rm'] = '1'; //remove csv from var folder
-        $csvfilename = 'locator-import-'.$this->getcurrentStoreTime().'.csv';      
+        $csvfilename = 'locator-import-' . $this->getcurrentStoreTime() . '.csv';      
         // config send email
         $this->sendEmail->sendMail($text);
     }
@@ -103,10 +103,10 @@ class SendMail
 
     public function getProduct()
     {    		
-    	$dateStoreTime = $this->getcurrentStoreTime().' '.$this->getTime();
+    	$dateStoreTime = $this->getcurrentStoreTime() . ' ' . $this->getTime();
     	$dateConvertUtc = date_create($dateStoreTime,timezone_open($this->getTimezone()));
     	date_timezone_set($dateConvertUtc,timezone_open("UTC"));
-    	$to = date_format($dateConvertUtc,"Y-m-d H:i:s");
+    	$to = date_format($dateConvertUtc, "Y-m-d H:i:s");
     	$from = strtotime('-1 day', strtotime($to));
 	    $from = date('Y-m-d h:i:s', $from); // 1 days before	        
 	    $orders = $this->_collectionFactory->create()->addFieldToFilter('created_at', array('from'=>$from, 'to'=>$to));
@@ -114,20 +114,20 @@ class SendMail
 	    if (count($orders) > 0) {
 	    	foreach ($orders as $order) {
 	    		$orderId = $order->getOrder_id();
-	    		if($this->orderRepository->get($orderId)->getStatus() === 'processing') {
+	    		$isPaid = $this->orderRepository->get($orderId)->getTotal_paid();
+	    		$status = $this->orderRepository->get($orderId)->getStatus();
+	    		if ($status === 'complete' && $isPaid) {
 	    			$_productStock = $this->getStockItem($order->getProduct_id());
-	    			echo $order->getCreated_at()."\n";
-	    			$index = $this->combineProduct($data, $order->getSku(), $order->getName());
-	    			if($index !== false) {
-	    				$a = $order->getQty_ordered() + $data[$index]['qty_ordered'];
-	    				$data[$index] = [
+	    			if (array_key_exists ($order->getProduct_id(), $data) === true) {
+	    				$a = $order->getQty_ordered() + $data[$order->getProduct_id()]['qty_ordered'];
+	    				$data[$order->getProduct_id()] = [
 	    					'name' => $order->getName(),
 	    					'sku' => $order->getSku(),
 	    					'qty_ordered' => $a,
 	    					'stock' => $_productStock->getQty()
 	    				];
 	    			} else {
-	    				$data[] = [
+	    				$data[$order->getProduct_id()] = [
 	    					'name' => $order->getName(),
 	    					'sku' => $order->getSku(),
 	    					'qty_ordered' => $order->getQty_ordered(),
@@ -139,15 +139,5 @@ class SendMail
 	    }	
 	    print_r($data);      
 	    return $data;
-	}
-	public function combineProduct($arr, $sku, $name)
-	{
-		$ind = false;
-		foreach ($arr as $key => $value) {
-			if($value['sku'] == $sku && $value['name'] == $name) {
-				$ind = $key;
-			}
-		}
-		return $ind;
 	}
 }

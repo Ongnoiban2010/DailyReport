@@ -125,7 +125,7 @@ class SendEmail extends AbstractHelper
         		\Zend_Mime::TYPE_OCTETSTREAM,
         		\Zend_Mime::DISPOSITION_ATTACHMENT,
         		\Zend_Mime::ENCODING_BASE64,
-        		'export/export-data-' .$this->getcurrentStoreTime(). '.csv'
+        		'export/export-data-' . $this->getcurrentStoreTime() . '.csv'
         	);
         	if (!$mail->send($transport) instanceof Zend_Mail) {
 
