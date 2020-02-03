@@ -82,7 +82,7 @@
                 </field>
                 <field id="ccemail" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Send Email Cc</label>
-                    <comment>Add Send Email BCC.</comment>
+                    <comment>Add Send Email CC.</comment>
                 </field>
             </group>
         </section>

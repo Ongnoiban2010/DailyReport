@@ -108,7 +108,7 @@ class SendMail
     	date_timezone_set($dateConvertUtc,timezone_open("UTC"));
     	$to = date_format($dateConvertUtc, "Y-m-d H:i:s");
     	$from = strtotime('-1 day', strtotime($to));
-	    $from = date('Y-m-d h:i:s', $from); // 1 days before	        
+	    $from = date('Y-m-d h:i:s', $from);         
 	    $orders = $this->_collectionFactory->create()->addFieldToFilter('created_at', array('from'=>$from, 'to'=>$to));
 	    $data = [];
 	    if (count($orders) > 0) {
