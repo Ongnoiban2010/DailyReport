@@ -17,13 +17,11 @@ class Data extends AbstractHelper {
 		$this->encryptor = $encryptor; 
 	} 
 
-	/* * @return bool */ 
 	public function isEnabled($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT) 
 	{ 
 		return $this->scopeConfig->isSetFlag('dailyreport/general/enable', $scope); 
 	} 
 
-	/* * @return string */ 
 	public function getEmail($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT) 
 	{ 
 		return $this->scopeConfig->getValue('dailyreport/general/email', $scope); 
@@ -76,5 +74,10 @@ class Data extends AbstractHelper {
 	public function getCcEmail($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
 	{
 		return $this->scopeConfig->getValue('dailyreport/general/ccemail', $scope);
+	}
+
+	public function getTimezone($scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT)
+	{
+		return $this->scopeConfig->getValue('general/locale/timezone', $scope);
 	}
 }

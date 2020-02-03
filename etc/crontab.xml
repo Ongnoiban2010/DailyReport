@@ -1,6 +1,6 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../app/code/Magento/Cron/etc/crontab.xsd">
     <group id="default">
-        <job name="tm-feed-job" instance="Dtn\DailyReport\Cron\Test" method="export">
+        <job name="tm-feed-job" instance="Dtn\DailyReport\Cron\SendMail" method="export">
             <config_path>crontab/default/jobs/tm_feed_job/schedule/cron_expr</config_path>
         </job>
     </group>

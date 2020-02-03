@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
-	<template id="dtn_daily_report_email" label="My lables" file="myemail.html" type="text" module="Dtn_DailyReport" area="frontend"/>
+    <template id="myemail_email_template" label="My Label" file="modulename/myemail.html" type="html" module="Dtn_DailyReport" area="frontend"/>
 </config>
